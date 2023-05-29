@@ -1,28 +1,19 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <title>Car</title>
-    <style>table th, table td {
-        padding: 5px;
-    }</style>
-</head>
-
-<body>
-<h1>th:each</h1>
-
+<h1>Cars</h1>
 <table border="1">
+    <thead>
     <tr>
         <th>brand</th>
         <th>model</th>
         <th>series</th>
     </tr>
+    </thead>
+
     <tr th:each="msg : ${cars}">
         <td th:utext="${msg.brand}">brand</td>
         <td th:utext="${msg.model}">model</td>
         <td th:utext="${msg.series}">series</td>
-
 </table>
-</body>
 </html>
