@@ -7,14 +7,14 @@ import java.util.List;
 public interface UserDao {
 
 
-    void add(User user);
+    void addUser(User user);
 
-    void delete(int id);
+    void deleteUser(int id);
 
-    User show(int id);
+    User showUser(int id);
 
-    void update(int id, User updateUser);
+    void updateUser(int id, User updateUser);
 
     @SuppressWarnings("unchecked")
-    List<User> listUsers();
+    List<User> getListUsers();
 }

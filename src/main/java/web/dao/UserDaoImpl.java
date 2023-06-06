@@ -19,24 +19,24 @@ public class UserDaoImpl implements UserDao {
     private EntityManager entityManager;
 
     @Override
-    public void add(User user) {
+    public void addUser(User user) {
         entityManager.persist(user);
     }
 
     @Override
-    public void delete(int id) {
+    public void deleteUser(int id) {
         entityManager.remove(entityManager.find(User.class, id));
     }
 
     @Override
-    public User show(int id) {
+    public User showUser(int id) {
         User user = entityManager.find(User.class, id);
         return user;
 
     }
 
     @Override
-    public void update(int id, User updateUser) {
+    public void updateUser(int id, User updateUser) {
         User userToBeUpdate = entityManager.find(User.class, id);
         userToBeUpdate.setName(updateUser.getName());
         userToBeUpdate.setLastName(updateUser.getLastName());
@@ -48,7 +48,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<User> listUsers() {
+    public List<User> getListUsers() {
         TypedQuery<User> query = entityManager.unwrap(Session.class).createQuery("from User");
         return query.getResultList();
     }
