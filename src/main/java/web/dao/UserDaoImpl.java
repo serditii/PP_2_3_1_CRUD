@@ -1,18 +1,15 @@
 package web.dao;
 
-import org.hibernate.Session;
-import org.springframework.stereotype.Component;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import web.entity.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.Optional;
 
-@Component
 @Repository
-@PersistenceContext
 public class UserDaoImpl implements UserDao {
 
     @PersistenceContext
@@ -25,32 +22,36 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void deleteUser(int id) {
-        entityManager.remove(entityManager.find(User.class, id));
+        entityManager.createQuery("delete from User where Id=:id").setParameter("id", id)
+                .executeUpdate();
+    }
+
+    @Override
+    public Optional<User> showUser(String email) {
+        Query<User> query = (Query<User>) entityManager
+                .createQuery("from User where email = :name ")
+                .setParameter("name", email);
+        List<User> list = query.getResultList();
+        if (list == null) {
+            return null;
+        }
+        return list.stream().findAny();
     }
 
     @Override
     public User showUser(int id) {
-        User user = entityManager.find(User.class, id);
-        return user;
-
+        return entityManager.find(User.class, id);
     }
 
     @Override
-    public void updateUser(int id, User updateUser) {
-        User userToBeUpdate = entityManager.find(User.class, id);
-        userToBeUpdate.setName(updateUser.getName());
-        userToBeUpdate.setLastName(updateUser.getLastName());
-        userToBeUpdate.setAge(updateUser.getAge());
-        userToBeUpdate.setEmail(updateUser.getEmail());
-        userToBeUpdate.setSity(updateUser.getSity());
-        entityManager.merge(userToBeUpdate);
+    public void updateUser(User updateUser) {
+        entityManager.merge(updateUser);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<User> getListUsers() {
-        TypedQuery<User> query = entityManager.unwrap(Session.class).createQuery("from User");
-        return query.getResultList();
+        return entityManager.createQuery("from User").getResultList();
     }
 }
 

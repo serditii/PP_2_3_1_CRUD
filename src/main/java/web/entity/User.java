@@ -1,13 +1,22 @@
 package web.entity;
 
-
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Column;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "users")
+@DynamicUpdate
 public class User {
 
     @Id
@@ -16,37 +25,32 @@ public class User {
     @Column(name = "id")
     private int id;
 
-    @NotEmpty
-    @Size(min = 2, max = 30)
+    @Size(min = 2, max = 30, message = "Name must be between 2 and 30 characters")
     @Column(name = "name")
     private String name;
 
-    @NotEmpty
-    @Size(min = 2, max = 30)
+    @Size(min = 2, max = 30, message = "Lastname must be between 2 and 30 characters")
     @Column(name = "last_name")
     private String lastName;
 
-    @NotEmpty
-    @Size(min = 4, max = 30)
+    @NotEmpty(message = "The field must not be empty")
     @Column(name = "email")
-    @Email
+    @Email(message = "Email must be valid")
     private String email;
 
-    @NotEmpty
-    @Size(min = 2, max = 30)
+    @Size(min = 2, max = 30, message = "Sity must be between 2 and 30 characters")
     @Column(name = "sity")
     private String sity;
 
-    @NotEmpty
-    @Min(0)
-    @Max(100)
+    @Min(value = 0, message = "Age must be between 0 and 100 years old")
+    @Max(value = 100, message = "Age must be between 0 and 100 years old")
     @Column(name = "age")
-    private int age;
+    private byte age;
 
     public User() {
     }
 
-    public User(String name, String lastName, int age) {
+    public User(String name, String lastName, byte age) {
         this.name = name;
         this.lastName = lastName;
         this.age = age;
@@ -81,7 +85,7 @@ public class User {
     }
 
     public void setAge(int age) {
-        this.age = age;
+        this.age = (byte) age;
     }
 
     public String getEmail() {

@@ -3,9 +3,9 @@ package web.dao;
 import web.entity.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserDao {
-
 
     void addUser(User user);
 
@@ -13,7 +13,9 @@ public interface UserDao {
 
     User showUser(int id);
 
-    void updateUser(int id, User updateUser);
+    Optional<User> showUser(String email);
+
+    void updateUser(User updateUser);
 
     @SuppressWarnings("unchecked")
     List<User> getListUsers();
